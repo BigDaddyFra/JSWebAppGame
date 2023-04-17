@@ -5,6 +5,8 @@ var express = require("express"),
     LocalStrategy = require("passport-local"),
     passportLocalMongoose = 
         require("passport-local-mongoose")
+
+const ejs = require("ejs");
 const User = require("./model/User");
 var app = express();
   
@@ -33,6 +35,11 @@ passport.deserializeUser(User.deserializeUser());
 app.get("/", function (req, res) {
     res.render("home");
 });
+
+// Showing home page
+app.get("/index", function (req, res) {
+  res.render("index");
+});
   
 // Showing register form
 app.get("/register", function (req, res) {
@@ -42,6 +49,18 @@ app.get("/register", function (req, res) {
 // Showing leaderboard page
 app.get("/leaderboard", function (req, res) {
   res.render("leaderboard");
+});
+
+// Showing game page
+app.get("/game", function (req, res) {
+
+  // Using gameObjects functions!!
+  // name 'ralphie' is a test user but we need to have this populated
+  // with the logged in user from the db.
+  const gameobj= {
+    user:'ralphie'
+  };
+  res.render("game", gameobj);
 });
   
 // Handling user signup
